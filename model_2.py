@@ -102,11 +102,12 @@ for i in range(0,len(S)):
 
 Sur = [0,1,2,3,4,5,6,7]
 Ww =  [5.00000E-02,6.82191E-02,2.82911E-01, 2.44564E-01,2.27660E-01,2.69004E+00,2.75264E+00,2.67435E+00]
-
+w0_z = [0.05, 0.05, 0.00983642, 0.00983642, 0.00983642, 0.0232125, 0.0592688,0.0592688]
 
 
 #%%
 w0 = [0.05]
+z0 = [0] #position of waist 
 w = [w0[0]]
 Z = []
 
@@ -122,11 +123,13 @@ for i in range(len(abcd)) :
     W,Q = waist_trace(abcd[i],q[-1])
     z = s_[i]
     w0_ = np.sqrt(Q.imag*Lambda/np.pi)
+    z0_ = z/(np.sqrt((W/w0_)**2 - 1))
     #print([i,W])
     w.append(W)
     q.append(Q)
     w0.append(w0_)
     Z.append(z)
+    z0.append(z0_)
 
 number = np.linspace(0,7,8)
 
@@ -139,8 +142,12 @@ plt.legend()
 
 #%%
 plt.figure(2)
-plt.title('Waist at each surface')
+plt.title('W0 at each surface')
+plt.xlabel('Surface')
+plt.ylabel('Waist')
 plt.plot(number, w0, label = 'simulation')
+plt.plot(number, w0_z, label = 'zemax')
+plt.legend()
 
 #%%
 r0 = np.array([[1],[0]])
